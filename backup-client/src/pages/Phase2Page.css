@@ -1,0 +1,107 @@
+.phase2-page-container h1 {
+  text-align: center;
+  color: var(--accent-color);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.groups-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  padding: 0 2rem;
+}
+
+.group-container {
+  background-color: #2a2a2a;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+}
+
+.group-container h2 {
+  text-align: center;
+  color: var(--secondary-color);
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+.group-section {
+  margin-top: 2rem;
+}
+
+.group-section h3 {
+  color: var(--secondary-color);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.team-list, .schedule-list {
+  list-style: none;
+  padding: 0;
+}
+
+.team-list li {
+  background-color: #333;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.schedule-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #444;
+}
+
+.schedule-list li span:nth-child(2) {
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+/* Reusing standings table styles */
+.standings-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.standings-table th, .standings-table td {
+  padding: 12px 15px;
+  text-align: center;
+}
+
+.standings-table thead tr {
+  background-color: var(--accent-color);
+  color: #1a1a1a;
+  font-weight: bold;
+}
+
+.standings-table tbody tr {
+  border-bottom: 1px solid #444;
+}
+
+.standings-table tbody tr:nth-of-type(even) {
+  background-color: #333;
+}
+
+.standings-table .team-name {
+  text-align: left;
+  font-weight: bold;
+}
+
+.standings-table .points {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .groups-wrapper {
+    grid-template-columns: 1fr;
+  }
+}

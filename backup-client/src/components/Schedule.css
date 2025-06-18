@@ -1,0 +1,41 @@
+.schedule-container {
+  margin-top: 2rem;
+}
+
+.rounds-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.round {
+  background-color: #2a2a2a;
+  padding: 20px;
+  border-radius: 8px;
+  flex: 1;
+}
+
+.round h3 {
+  color: var(--accent-color);
+  margin-top: 0;
+}
+
+.round ul {
+  list-style: none;
+  padding: 0;
+}
+
+.round li {
+  padding: 10px;
+  border-bottom: 1px solid #444;
+}
+
+.round li:last-child {
+  border-bottom: none;
+}
+
+.round li span {
+  display: inline-block;
+  width: 45%;
+  text-align: center;
+}
