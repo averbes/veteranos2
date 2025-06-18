@@ -155,20 +155,6 @@ function TeamPage() {
       )}
       
       <div className="team-info-grid">
-        <div className="team-card stats-card">
-          <h3>Estadísticas</h3>
-          <ul>
-            <li><strong>Puntos:</strong> {pts}</li>
-            <li><strong>Partidos Jugados:</strong> {pj}</li>
-            <li><strong>Victorias:</strong> {pg}</li>
-            <li><strong>Empates:</strong> {pe}</li>
-            <li><strong>Derrotas:</strong> {pp}</li>
-            <li><strong>Goles a Favor:</strong> {gf}</li>
-            <li><strong>Goles en Contra:</strong> {gc}</li>
-            <li><strong>Diferencia de Goles:</strong> {gd}</li>
-          </ul>
-        </div>
-
         <div className="team-card players-card">
           <h3>Jugadores</h3>
           <table className="players-table">
@@ -212,6 +198,19 @@ function TeamPage() {
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="team-card stats-card">
+          <h3>Estadísticas</h3>
+          <ul>
+            <li><strong>Puntos:</strong> {pts}</li>
+            <li><strong>Partidos Jugados:</strong> {pj}</li>
+            <li><strong>Victorias:</strong> {pg}</li>
+            <li><strong>Empates:</strong> {pe}</li>
+            <li><strong>Derrotas:</strong> {pp}</li>
+            <li><strong>Goles a Favor:</strong> {gf}</li>
+            <li><strong>Goles en Contra:</strong> {gc}</li>
+            <li><strong>Diferencia de Goles:</strong> {gd}</li>
+          </ul>
         </div>
       </div>
     </div>

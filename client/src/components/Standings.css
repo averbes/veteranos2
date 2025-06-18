@@ -1,5 +1,304 @@
+/* Importar Bootstrap Icons */
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css');
+
+/* Variables personalizadas para Liga BetPlay */
+:root {
+  --betplay-primary: #0066CC;
+  --betplay-secondary: #FF6B35;
+  --betplay-success: #28a745;
+  --betplay-warning: #ffc107;
+  --betplay-danger: #dc3545;
+  --betplay-light: #f8f9fa;
+  --betplay-dark: #343a40;
+}
+
+/* Override de colores de Bootstrap */
+.bg-primary {
+  background-color: var(--betplay-primary) !important;
+}
+
+.text-primary {
+  color: var(--betplay-primary) !important;
+}
+
+.btn-primary {
+  background-color: var(--betplay-primary);
+  border-color: var(--betplay-primary);
+}
+
+.badge.bg-primary {
+  background-color: var(--betplay-primary) !important;
+}
+
+/* Estilos específicos de la tabla */
+.betplay-table {
+  font-size: 0.9rem;
+}
+
+.betplay-table thead th {
+  background-color: var(--betplay-primary) !important;
+  border: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 1rem 0.75rem;
+  vertical-align: middle;
+}
+
+.betplay-table tbody tr {
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.betplay-table tbody tr:hover {
+  background-color: rgba(0, 102, 204, 0.05);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.betplay-table td {
+  padding: 1rem 0.75rem;
+  vertical-align: middle;
+  border: none;
+}
+
+/* Badges de posición */
+.position-badge {
+  min-width: 35px;
+  height: 35px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Colores por posición */
+.clasificacion-directa {
+  border-left: 4px solid var(--betplay-success) !important;
+}
+
+.clasificacion-repechaje {
+  border-left: 4px solid var(--betplay-warning) !important;
+}
+
+.descenso {
+  border-left: 4px solid var(--betplay-danger) !important;
+}
+
+/* Logos de equipos */
+.team-logo {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Enlaces de equipos */
+.team-link {
+  color: var(--betplay-dark);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.team-link:hover {
+  color: var(--betplay-primary);
+  text-decoration: none;
+}
+
+/* Celdas de equipos */
+.team-cell {
+  min-width: 200px;
+}
+
+/* Tarjetas de equipos */
+.team-card-betplay {
+  transition: all 0.3s ease;
+  border: 1px solid #dee2e6;
+}
+
+.team-card-betplay:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.team-card-betplay.clasificacion-directa {
+  border-left-color: var(--betplay-success) !important;
+}
+
+.team-card-betplay.clasificacion-repechaje {
+  border-left-color: var(--betplay-warning) !important;
+}
+
+.team-card-betplay.descenso {
+  border-left-color: var(--betplay-danger) !important;
+}
+
+/* Botones de ordenación */
+.btn-link {
+  font-size: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-link:focus {
+  box-shadow: none;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.position-row {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.position-row:nth-child(odd) {
+  animation-delay: 0.1s;
+}
+
+.position-row:nth-child(even) {
+  animation-delay: 0.2s;
+}
+
+/* Estilos responsivos adicionales */
+@media (max-width: 576px) {
+  .betplay-table {
+    font-size: 0.8rem;
+  }
+  
+  .betplay-table td,
+  .betplay-table th {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .team-logo {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .position-badge {
+    min-width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .team-cell {
+    min-width: 150px;
+  }
+}
+
+/* Efectos adicionales */
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.badge {
+  border-radius: 8px;
+}
+
+/* Estilos para la leyenda */
+.card-body {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Header principal */
+.bg-primary {
+  background: linear-gradient(135deg, var(--betplay-primary) 0%, #004499 100%) !important;
+}
+
+/* Sombras y efectos */
+.shadow {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.shadow-sm {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Efectos hover para botones */
+.btn-group .btn {
+  transition: all 0.2s ease;
+}
+
+.btn-group .btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Estilos para estadísticas coloreadas */
+.text-success {
+  color: var(--betplay-success) !important;
+  font-weight: 600;
+}
+
+.text-warning {
+  color: #f57c00 !important;
+  font-weight: 600;
+}
+
+.text-danger {
+  color: var(--betplay-danger) !important;
+  font-weight: 600;
+}
+
+/* Mejoras de accesibilidad */
+.btn:focus,
+.btn-link:focus {
+  outline: 2px solid var(--betplay-primary);
+  outline-offset: 2px;
+}
+
+/* Indicadores de ordenación mejorados */
+.bi-arrow-down-up,
+.bi-arrow-down,
+.bi-arrow-up {
+  font-size: 0.8rem;
+  margin-left: 0.25rem;
+}
+
+/* Footer informativo */
+.bg-light {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+}
+
+/* Transiciones suaves para cambio de vista */
+.fade-in {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Estilos para dispositivos táctiles */
+@media (hover: none) {
+  .betplay-table tbody tr:hover {
+    background-color: transparent;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .team-card-betplay:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
 .standings-container {
   margin-top: 2rem;
+  width: 100%;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 table {
@@ -8,47 +307,4 @@ table {
   background-color: #2a2a2a;
   border-radius: 8px;
   overflow: hidden;
-}
-
-thead {
-  background-color: var(--accent-color);
-  color: #fff;
-}
-
-th, td {
-  padding: 12px 15px;
-  text-align: center;
-}
-
-tbody tr {
-  border-bottom: 1px solid #444;
-}
-
-tbody tr:nth-of-type(even) {
-  background-color: #333;
-}
-
-tbody tr:last-of-type {
-  border-bottom: none;
-}
-
-.team-name {
-  text-align: left;
-  font-weight: bold;
-}
-
-.team-name a {
-  color: var(--secondary-color);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.team-name a:hover {
-  color: var(--accent-color);
-  text-decoration: underline;
-}
-
-.points {
-  font-weight: bold;
-  font-size: 1.1rem;
 }

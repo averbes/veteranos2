@@ -12,6 +12,13 @@
   color: var(--accent-color);
 }
 
+.statistics-page-container h2 {
+  color: #111;
+  text-align: center;
+  margin-bottom: 1.2rem;
+  font-weight: bold;
+}
+
 .statistics-page-container section {
   margin-bottom: 2.5rem;
 }

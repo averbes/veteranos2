@@ -115,10 +115,11 @@
 
 /* Tabla de jugadores */
 .team-info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
   margin-bottom: 2rem;
+  align-items: center;
 }
 
 .team-card {
@@ -153,6 +154,8 @@
 .players-card {
   overflow-x: auto;
   position: relative;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 /* Estilos para los botones de acción */
@@ -216,6 +219,8 @@
 
 .players-table {
   width: 100%;
+  max-width: 600px;
+  min-width: 500px;
   border-collapse: collapse;
   margin-top: 1rem;
   background-color: #2a2a2a;
