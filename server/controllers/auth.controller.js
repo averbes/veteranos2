@@ -1,7 +1,5 @@
 const db = require('../database');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('../config/auth.config');
 
 // Función para registrar un nuevo usuario
 const signup = (req, res) => {
@@ -58,23 +56,15 @@ const signin = (req, res) => {
 
     if (!passwordIsValid) {
       return res.status(401).send({
-        accessToken: null,
         message: 'Invalid Password!',
       });
     }
-
-    const token = jwt.sign(
-      { id: user.id, role: user.role },
-      config.jwt.secret,
-      { expiresIn: config.jwt.expiresIn }
-    );
 
     res.status(200).send({
       id: user.id,
       username: user.username,
       email: user.email,
       role: user.role,
-      accessToken: token,
     });
   });
 };
