@@ -10,10 +10,10 @@ function StatisticsPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch('http://localhost:3001/api/stats/scorers').then(res => res.json()),
-      fetch('http://localhost:3001/api/stats/cards').then(res => res.json()),
-      fetch('http://localhost:3001/api/stats/offense').then(res => res.json()),
-      fetch('http://localhost:3001/api/stats/defense').then(res => res.json()),
+      fetch('/api/stats/scorers').then(res => res.json()),
+      fetch('/api/stats/cards').then(res => res.json()),
+      fetch('/api/stats/offense').then(res => res.json()),
+      fetch('/api/stats/defense').then(res => res.json()),
     ]).then(([scorersData, cardsData, offenseData, defenseData]) => {
       setScorers(scorersData);
       setCards(cardsData);

@@ -37,9 +37,14 @@ function LoginPage() {
     setLoading(true);
     
     try {
-      await authService.login(username, password);
-      const from = location.state?.from?.pathname || '/admin';
-      navigate(from, { replace: true });
+      const userData = await authService.login(username, password);
+      if (userData && userData.role === 'admin') {
+        // If user is admin, navigate to the admin page
+        navigate('/admin', { replace: true });
+      } else {
+        // For any other user, navigate to the homepage
+        navigate('/', { replace: true });
+      }
     } catch (error) {
       let errorMessage = 'Error al iniciar sesión. Por favor intente nuevamente.';
       

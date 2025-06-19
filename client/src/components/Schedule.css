@@ -1,41 +1,88 @@
-.schedule-container {
-  margin-top: 2rem;
-}
+/* Schedule Component Styles */
 
-.rounds-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 2rem;
-}
-
-.round {
-  background-color: #2a2a2a;
-  padding: 20px;
-  border-radius: 8px;
-  flex: 1;
-}
-
-.round h3 {
-  color: var(--accent-color);
-  margin-top: 0;
-}
-
-.round ul {
-  list-style: none;
-  padding: 0;
-}
-
-.round li {
-  padding: 10px;
-  border-bottom: 1px solid #444;
-}
-
-.round li:last-child {
+.schedule-container .standings-header-card .card-header {
   border-bottom: none;
 }
 
-.round li span {
-  display: inline-block;
-  width: 45%;
-  text-align: center;
+.round-title {
+  font-weight: 600;
+  color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #dee2e6;
+  padding-bottom: 0.5rem;
+}
+
+.match-item {
+  padding: 0.75rem 1rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.match-item:hover {
+  background-color: #f8f9fa;
+}
+
+.team-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-logo-schedule {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.team-name-schedule {
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px; /* Adjust as needed */
+}
+
+.match-separator .badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .team-name-schedule {
+    max-width: 120px;
+  }
+  .round-title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .team-info {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .team-logo-schedule {
+    margin: 0 0 0.25rem 0 !important;
+  }
+
+  .team-name-schedule {
+    font-size: 0.85rem;
+    max-width: 100px;
+  }
+
+  .match-separator {
+    margin: 0.5rem 0;
+  }
+  
+  .schedule-container .standings-header-card .h5 {
+      font-size: 1.1rem;
+  }
+  
+  .schedule-container .standings-header-card .d-flex > svg {
+      width: 30px;
+      height: 30px;
+  }
 }

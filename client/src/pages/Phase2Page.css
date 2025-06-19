@@ -136,11 +136,12 @@
   width: 100%;
   max-width: 700px;
   margin: 0 auto 2.5rem auto;
-  background: #23272b;
+  background: #233524;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   padding: 1.5rem 2rem;
   text-align: center;
+  border: 1.5px solid #3a5d3a;
 }
 
 .all-teams-container h2 {
@@ -159,7 +160,7 @@
 }
 
 .all-teams-list li {
-  background: #333;
+  background: #2e4a2e;
   color: #fff;
   padding: 0.7rem 1.5rem;
   border-radius: 5px;
@@ -167,6 +168,7 @@
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  border: 1.5px solid #3a5d3a;
 }
 
 .phase2-standings-row {

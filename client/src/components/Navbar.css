@@ -1,0 +1,54 @@
+/* Navbar Component Styles */
+
+.main-navbar {
+  transition: background-color 0.3s ease-in-out, padding 0.3s ease-in-out;
+}
+
+.main-navbar.scrolled {
+  background-color: rgba(33, 37, 41, 0.95) !important;
+  backdrop-filter: blur(5px);
+}
+
+.main-navbar .nav-link {
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  border-radius: 0.375rem;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  font-weight: 500;
+}
+
+.main-navbar .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.main-navbar .nav-link.active {
+  background-color: var(--bs-primary);
+  color: #fff !important;
+}
+
+#user-dropdown::after {
+  display: none; /* Hide default dropdown arrow */
+}
+
+.main-navbar .dropdown-menu {
+  border: none;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 991.98px) {
+  .main-navbar .navbar-collapse {
+    padding: 1rem;
+    background-color: rgba(33, 37, 41, 0.98);
+    backdrop-filter: blur(5px);
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .main-navbar .nav-link {
+    padding: 0.75rem 1rem;
+  }
+
+  #user-dropdown {
+    padding-left: 1rem !important;
+  }
+}

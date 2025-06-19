@@ -1,0 +1,66 @@
+/* Footer Component Styles */
+
+.main-footer {
+  background-color: #212529;
+}
+
+.main-footer .footer-text {
+  color: #adb5bd;
+  font-size: 0.95rem;
+}
+
+.main-footer .social-icon {
+  color: #ced4da;
+  transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.main-footer .social-icon:hover {
+  color: var(--bs-primary);
+  transform: translateY(-2px);
+}
+
+.main-footer .footer-links li {
+  margin-bottom: 0.75rem;
+}
+
+.main-footer .footer-links a {
+  color: #adb5bd;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out, padding-left 0.2s ease-in-out;
+  position: relative;
+}
+
+.main-footer .footer-links a:hover {
+  color: #fff;
+  padding-left: 5px;
+}
+
+.main-footer .footer-contact a {
+  color: #adb5bd;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.main-footer .footer-contact a:hover {
+  color: #fff;
+}
+
+.main-footer .footer-contact .d-flex span {
+  color: #adb5bd;
+}
+
+.main-footer .footer-bottom {
+  border-top: 1px solid #343a40;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 767.98px) {
+  .main-footer .text-lg-start {
+    text-align: center !important;
+  }
+
+  .main-footer .footer-contact .d-flex {
+    justify-content: center;
+  }
+}

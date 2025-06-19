@@ -1,17 +1,34 @@
 
-const db = require('../database');
+const jwt = require('jsonwebtoken');
+const { User } = require('../models');
 
 const verifyToken = (req, res, next) => {
-  // JWT verification logic removed. 
-  // This will allow requests to proceed without authentication.
-  // Note that req.userId and req.userRole will not be set.
-  next();
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return res.status(403).send({ message: 'No token provided!' });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({ message: 'Unauthorized!' });
+    }
+    req.userId = decoded.id;
+    next();
+  });
 };
 
-const isAdmin = (req, res, next) => {
-  // Admin role check removed.
-  // This will allow all users to access admin routes.
-  next();
+const isAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (user && user.role === 'admin') {
+      next();
+    } else {
+      res.status(403).send({ message: 'Require Admin Role!' });
+    }
+  } catch (error) {
+    res.status(500).send({ message: 'Error checking user role!' });
+  }
 };
 
 const authJwt = {

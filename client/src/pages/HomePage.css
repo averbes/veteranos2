@@ -1,0 +1,77 @@
+/* HomePage Component Styles */
+
+.home-page {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #212529 0%, #343a40 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('https://www.transparenttextures.com/patterns/subtle-carbon.png');
+  opacity: 0.05;
+}
+
+.hero-image-container img {
+  transition: transform 0.3s ease-out;
+}
+
+.hero-image-container:hover img {
+  transform: scale(1.03);
+}
+
+/* Features Section */
+.feature-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1) !important;
+}
+
+.feature-card .card-footer {
+  transition: background-color 0.2s ease-in-out;
+}
+
+.feature-card:hover .card-footer {
+  background-color: #f8f9fa !important;
+}
+
+/* Match Cards */
+.match-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.match-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.08) !important;
+}
+
+/* Call to Action Section */
+.bg-primary.text-white {
+  background-color: var(--bs-primary) !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+  .hero-section {
+    text-align: center;
+  }
+  .hero-section .d-flex {
+    justify-content: center;
+  }
+}
+

@@ -1,22 +1,26 @@
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import authService from '../services/auth.service';
 
-const ProtectedRoute = ({ requiredRole = null }) => {
-  const currentUser = authService.getCurrentUser();
+const ProtectedRoute = ({ children }) => {
+  const location = useLocation();
 
-  // Si no hay usuario autenticado, redirigir al login
-  if (!currentUser) {
-    return <Navigate to="/login" replace />;
+  // First, check if the user is authenticated at all.
+  if (!authService.isAuthenticated()) {
+    // If not, redirect them to the login page.
+    // We're saving the location they were trying to go to, so we can send
+    // them there after they log in.
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // Si se requiere un rol específico y el usuario no lo tiene, redirigir al inicio
-  if (requiredRole && currentUser.role !== requiredRole) {
+  // If they are authenticated, check if they are an admin.
+  if (!authService.isAdmin()) {
+    // If they are not an admin, redirect them to the homepage.
     return <Navigate to="/" replace />;
   }
 
-  // Si todo está bien, renderizar las rutas hijas
-  return <Outlet />;
+  // If they are an authenticated admin, render the protected component.
+  return children;
 };
 
 export default ProtectedRoute;

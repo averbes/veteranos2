@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col, Card, Table, Badge, ButtonGroup, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Table as TableIcon, Grid3x3Gap, ArrowUp, ArrowDown, ArrowsVertical } from 'react-bootstrap-icons';
 import './Standings.css';
 
 function Standings({ teams }) {
@@ -15,334 +16,206 @@ function Standings({ teams }) {
     setSortConfig({ key, direction });
   };
 
-  const sortedTeams = React.useMemo(() => {
-    if (!sortConfig.key) return teams;
-    
-    return [...teams].sort((a, b) => {
-      if (sortConfig.direction === 'asc') {
-        return a[sortConfig.key] - b[sortConfig.key];
-      }
-      return b[sortConfig.key] - a[sortConfig.key];
-    });
+  const sortedTeams = useMemo(() => {
+    let sortableTeams = [...teams];
+    if (sortConfig.key !== null) {
+      sortableTeams.sort((a, b) => {
+        if (sortConfig.key === 'name') {
+            if (a.name < b.name) return sortConfig.direction === 'asc' ? -1 : 1;
+            if (a.name > b.name) return sortConfig.direction === 'asc' ? 1 : -1;
+            return 0;
+        }
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'asc' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'asc' ? 1 : -1;
+        }
+        if (sortConfig.key !== 'pts') {
+            return b.pts - a.pts;
+        }
+        return 0;
+      });
+    }
+    return sortableTeams;
   }, [teams, sortConfig]);
 
   const getPositionClass = (position) => {
-    if (position <= 8) return 'clasificacion-directa';
-    if (position >= 9 && position <= 12) return 'clasificacion-repechaje';
-    if (position >= teams.length - 1) return 'descenso';
+    if (position <= 8) return 'position-direct';
+    if (position >= 9 && position <= 12) return 'position-playoff';
+    if (position >= teams.length - 2 && teams.length > 12) return 'position-relegation';
     return '';
   };
 
   const getPositionBadge = (position) => {
-    if (position <= 8) return 'bg-success';
-    if (position >= 9 && position <= 12) return 'bg-warning';
-    if (position >= teams.length - 2) return 'bg-danger';
-    return 'bg-secondary';
+    if (position <= 8) return 'success';
+    if (position >= 9 && position <= 12) return 'warning';
+    if (position >= teams.length - 2 && teams.length > 12) return 'danger';
+    return 'secondary';
   };
 
-  const getSortIcon = (columnKey) => {
+  const SortIcon = ({ columnKey }) => {
     if (sortConfig.key !== columnKey) {
-      return <i className="bi bi-arrow-down-up text-muted"></i>;
+      return <ArrowsVertical className="ms-1 text-muted" size={14} />;
     }
     return sortConfig.direction === 'desc' ? 
-      <i className="bi bi-arrow-down text-primary"></i> : 
-      <i className="bi bi-arrow-up text-primary"></i>;
+      <ArrowDown className="ms-1" size={14} /> : 
+      <ArrowUp className="ms-1" size={14} />;
   };
 
+  const renderTooltip = (props, text) => (
+    <Tooltip id="button-tooltip" {...props}>
+      {text}
+    </Tooltip>
+  );
+
   return (
-    <div className="container-fluid px-0">
-      {/* Header con logos y título */}
-      <div className="bg-primary text-white py-3 mb-4">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-md-8">
+    <Container fluid="lg" className="standings-component my-4">
+      <Card className="shadow-sm mb-4 standings-header-card">
+        <Card.Header as="div" className="p-3 bg-dark text-white">
+          <Row className="align-items-center">
+            <Col md={8}>
               <div className="d-flex align-items-center">
-                <img 
-                  src="https://via.placeholder.com/60x60/FF6B35/FFFFFF?text=FCF" 
-                  alt="FCF Logo" 
-                  className="me-3 rounded"
+                <img
+                  src={`https://ui-avatars.com/api/?name=LIGA&background=0D6EFD&color=FFFFFF&font-size=0.5`}
+                  alt="League Logo"
+                  className="me-3 rounded-circle shadow-sm"
+                  width="50"
+                  height="50"
                 />
                 <div>
-                  <h1 className="h3 mb-0 fw-bold">LIGA BETPLAY DIMAYOR</h1>
-                  <small className="opacity-75">Tabla de Posiciones 2024</small>
+                  <h1 className="h5 mb-0 fw-bold">TABLA DE POSICIONES</h1>
+                  <small className="opacity-75">Liga BetPlay 2024</small>
                 </div>
               </div>
-            </div>
-            <div className="col-md-4 text-end">
-              <div className="btn-group" role="group">
-                <button 
-                  className={`btn ${viewMode === 'table' ? 'btn-light' : 'btn-outline-light'} btn-sm`}
-                  onClick={() => setViewMode('table')}
-                >
-                  <i className="bi bi-table"></i> Tabla
-                </button>
-                <button 
-                  className={`btn ${viewMode === 'cards' ? 'btn-light' : 'btn-outline-light'} btn-sm`}
-                  onClick={() => setViewMode('cards')}
-                >
-                  <i className="bi bi-grid-3x3-gap"></i> Tarjetas
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+            </Col>
+            <Col md={4} className="text-md-end mt-3 mt-md-0">
+              <ButtonGroup>
+                <OverlayTrigger placement="top" overlay={(props) => renderTooltip(props, 'Vista de Tabla')}>
+                  <Button variant={viewMode === 'table' ? 'primary' : 'outline-light'} size="sm" onClick={() => setViewMode('table')}>
+                    <TableIcon />
+                  </Button>
+                </OverlayTrigger>
+                <OverlayTrigger placement="top" overlay={(props) => renderTooltip(props, 'Vista de Tarjetas')}>
+                  <Button variant={viewMode === 'cards' ? 'primary' : 'outline-light'} size="sm" onClick={() => setViewMode('cards')}>
+                    <Grid3x3Gap />
+                  </Button>
+                </OverlayTrigger>
+              </ButtonGroup>
+            </Col>
+          </Row>
+        </Card.Header>
+      </Card>
+
+      <div className="d-flex flex-wrap justify-content-center gap-3 mb-3 small text-muted">
+          <span className="d-flex align-items-center"><Badge pill bg="success" className="me-2 legend-badge">&nbsp;</Badge> Clasificación</span>
+          <span className="d-flex align-items-center"><Badge pill bg="warning" className="me-2 legend-badge">&nbsp;</Badge> Repechaje</span>
+          <span className="d-flex align-items-center"><Badge pill bg="danger" className="me-2 legend-badge">&nbsp;</Badge> Descenso</span>
       </div>
 
-      <div className="container">
-        {viewMode === 'table' ? (
-          <>
-            {/* Leyenda */}
-            <div className="row mb-3">
-              <div className="col-12">
-                <div className="card border-0 shadow-sm">
-                  <div className="card-body py-2">
-                    <div className="row text-center">
-                      <div className="col-6 col-md-3 mb-2">
-                        <span className="badge bg-success me-2">1-8</span>
-                        <small>Clasificación Directa</small>
-                      </div>
-                      <div className="col-6 col-md-3 mb-2">
-                        <span className="badge bg-warning text-dark me-2">9-12</span>
-                        <small>Repechaje</small>
-                      </div>
-                      <div className="col-6 col-md-3 mb-2">
-                        <span className="badge bg-danger me-2">{teams.length - 2}-{teams.length}</span>
-                        <small>Descenso</small>
-                      </div>
-                      <div className="col-6 col-md-3 mb-2">
-                        <small className="text-muted">
-                          <i className="bi bi-info-circle"></i> Actualizado hoy
-                        </small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Tabla principal */}
-            <div className="card border-0 shadow">
-              <div className="table-responsive">
-                <table className="table table-hover mb-0 betplay-table">
-                  <thead className="bg-primary text-white">
-                    <tr>
-                      <th scope="col" className="text-center fw-bold">POS</th>
-                      <th scope="col" className="fw-bold">
-                        <button 
-                          className="btn btn-link text-white text-decoration-none p-0 fw-bold"
-                          onClick={() => handleSort('name')}
-                        >
-                          EQUIPO {getSortIcon('name')}
-                        </button>
-                      </th>
-                      <th scope="col" className="text-center d-none d-md-table-cell">
-                        <button 
-                          className="btn btn-link text-white text-decoration-none p-0 fw-bold"
-                          onClick={() => handleSort('pj')}
-                        >
-                          PJ {getSortIcon('pj')}
-                        </button>
-                      </th>
-                      <th scope="col" className="text-center d-none d-lg-table-cell">
-                        <button 
-                          className="btn btn-link text-white text-decoration-none p-0 fw-bold"
-                          onClick={() => handleSort('pg')}
-                        >
-                          PG {getSortIcon('pg')}
-                        </button>
-                      </th>
-                      <th scope="col" className="text-center d-none d-lg-table-cell">
-                        <button 
-                          className="btn btn-link text-white text-decoration-none p-0 fw-bold"
-                          onClick={() => handleSort('pe')}
-                        >
-                          PE {getSortIcon('pe')}
-                        </button>
-                      </th>
-                      <th scope="col" className="text-center d-none d-lg-table-cell">
-                        <button 
-                          className="btn btn-link text-white text-decoration-none p-0 fw-bold"
-                          onClick={() => handleSort('pp')}
-                        >
-                          PP {getSortIcon('pp')}
-                        </button>
-                      </th>
-                      <th scope="col" className="text-center d-none d-md-table-cell">
-                        <button 
-                          className="btn btn-link text-white text-decoration-none p-0 fw-bold"
-                          onClick={() => handleSort('gf')}
-                        >
-                          GF {getSortIcon('gf')}
-                        </button>
-                      </th>
-                      <th scope="col" className="text-center d-none d-md-table-cell">
-                        <button 
-                          className="btn btn-link text-white text-decoration-none p-0 fw-bold"
-                          onClick={() => handleSort('gc')}
-                        >
-                          GC {getSortIcon('gc')}
-                        </button>
-                      </th>
-                      <th scope="col" className="text-center">
-                        <button 
-                          className="btn btn-link text-white text-decoration-none p-0 fw-bold"
-                          onClick={() => handleSort('gd')}
-                        >
-                          DIF {getSortIcon('gd')}
-                        </button>
-                      </th>
-                      <th scope="col" className="text-center fw-bold">
-                        <button 
-                          className="btn btn-link text-white text-decoration-none p-0 fw-bold"
-                          onClick={() => handleSort('pts')}
-                        >
-                          PTS {getSortIcon('pts')}
-                        </button>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {sortedTeams.map((team, index) => (
-                      <tr key={team.id} className={`position-row ${getPositionClass(index + 1)}`}>
-                        <td className="text-center fw-bold">
-                          <span className={`badge ${getPositionBadge(index + 1)} position-badge`}>
-                            {index + 1}
-                          </span>
-                        </td>
-                        <td className="team-cell">
-                          <div className="d-flex align-items-center">
-                            <img 
-                              src={`https://via.placeholder.com/30x30/0066CC/FFFFFF?text=${team.name.substring(0, 2)}`}
-                              alt={`${team.name} logo`}
-                              className="team-logo me-2 rounded-circle"
-                            />
-                            <Link 
-                              to={`/equipo/${team.id}`} 
-                              className="text-decoration-none fw-semibold team-link"
-                            >
-                              <span className="d-none d-md-inline">{team.name}</span>
-                              <span className="d-md-none">{team.name.length > 12 ? team.name.substring(0, 12) + '...' : team.name}</span>
-                            </Link>
-                          </div>
-                        </td>
-                        <td className="text-center d-none d-md-table-cell">{team.pj}</td>
-                        <td className="text-center d-none d-lg-table-cell text-success fw-bold">{team.pg}</td>
-                        <td className="text-center d-none d-lg-table-cell text-warning fw-bold">{team.pe}</td>
-                        <td className="text-center d-none d-lg-table-cell text-danger fw-bold">{team.pp}</td>
-                        <td className="text-center d-none d-md-table-cell text-success">{team.gf}</td>
-                        <td className="text-center d-none d-md-table-cell text-danger">{team.gc}</td>
-                        <td className={`text-center fw-bold ${team.gd >= 0 ? 'text-success' : 'text-danger'}`}>
-                          {team.gd > 0 ? '+' : ''}{team.gd}
-                        </td>
-                        <td className="text-center">
-                          <span className="badge bg-primary fs-6 fw-bold px-3 py-2">
-                            {team.pts}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </>
-        ) : (
-          /* Vista de tarjetas */
-          <div className="row">
-            {sortedTeams.map((team, index) => (
-              <div key={team.id} className="col-12 col-md-6 col-xl-4 mb-3">
-                <div className={`card h-100 shadow-sm border-start border-4 team-card-betplay ${getPositionClass(index + 1)}`}>
-                  <div className="card-body">
-                    <div className="d-flex justify-content-between align-items-start mb-3">
-                      <div className="d-flex align-items-center">
-                        <span className={`badge ${getPositionBadge(index + 1)} me-2 fs-6`}>
-                          {index + 1}
-                        </span>
-                        <img 
-                          src={`https://via.placeholder.com/40x40/0066CC/FFFFFF?text=${team.name.substring(0, 2)}`}
-                          alt={`${team.name} logo`}
-                          className="team-logo me-2 rounded-circle"
-                        />
-                      </div>
-                      <span className="badge bg-primary fs-6 fw-bold px-3 py-2">
-                        {team.pts} pts
-                      </span>
-                    </div>
-                    
-                    <h5 className="card-title mb-3">
-                      <Link to={`/equipo/${team.id}`} className="text-decoration-none">
-                        {team.name}
+      {viewMode === 'table' ? (
+        <Card className="shadow-sm">
+          <Table hover responsive className="betplay-table mb-0">
+            <thead className="table-light">
+              <tr>
+                <th scope="col" className="text-center fw-bold">#</th>
+                <th scope="col" className="sortable" onClick={() => handleSort('name')}>
+                  Equipo <SortIcon columnKey="name" />
+                </th>
+                <th scope="col" className="text-center sortable d-none d-md-table-cell" onClick={() => handleSort('pj')}>
+                  PJ <SortIcon columnKey="pj" />
+                </th>
+                <th scope="col" className="text-center sortable d-none d-lg-table-cell" onClick={() => handleSort('pg')}>
+                  PG <SortIcon columnKey="pg" />
+                </th>
+                <th scope="col" className="text-center sortable d-none d-lg-table-cell" onClick={() => handleSort('pe')}>
+                  PE <SortIcon columnKey="pe" />
+                </th>
+                <th scope="col" className="text-center sortable d-none d-lg-table-cell" onClick={() => handleSort('pp')}>
+                  PP <SortIcon columnKey="pp" />
+                </th>
+                <th scope="col" className="text-center sortable d-none d-md-table-cell" onClick={() => handleSort('gf')}>
+                  GF <SortIcon columnKey="gf" />
+                </th>
+                <th scope="col" className="text-center sortable d-none d-md-table-cell" onClick={() => handleSort('gc')}>
+                  GC <SortIcon columnKey="gc" />
+                </th>
+                <th scope="col" className="text-center sortable" onClick={() => handleSort('gd')}>
+                  DIF <SortIcon columnKey="gd" />
+                </th>
+                <th scope="col" className="text-center sortable fw-bold" onClick={() => handleSort('pts')}>
+                  PTS <SortIcon columnKey="pts" />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedTeams.map((team, index) => (
+                <tr key={team.id} className={getPositionClass(index + 1)}>
+                  <td className="text-center fw-bold">
+                    <OverlayTrigger placement="top" overlay={(props) => renderTooltip(props, getPositionClass(index + 1).replace('position-','').replace('-',' '))}>
+                        <Badge bg={getPositionBadge(index + 1)}>{index + 1}</Badge>
+                    </OverlayTrigger>
+                  </td>
+                  <td>
+                    <Link to={`/equipo/${team.id}`} className="team-link">
+                      <img 
+                        src={`https://ui-avatars.com/api/?name=${team.name.substring(0, 2)}&background=random&color=FFFFFF&font-size=0.4`}
+                        alt={`${team.name} logo`}
+                        className="team-logo me-2"
+                      />
+                      <span className="team-name">{team.name}</span>
+                    </Link>
+                  </td>
+                  <td className="text-center d-none d-md-table-cell">{team.pj}</td>
+                  <td className="text-center d-none d-lg-table-cell text-success">{team.pg}</td>
+                  <td className="text-center d-none d-lg-table-cell text-warning">{team.pe}</td>
+                  <td className="text-center d-none d-lg-table-cell text-danger">{team.pp}</td>
+                  <td className="text-center d-none d-md-table-cell">{team.gf}</td>
+                  <td className="text-center d-none d-md-table-cell">{team.gc}</td>
+                  <td className={`text-center fw-bold ${team.gd >= 0 ? 'text-success' : 'text-danger'}`}>
+                    {team.gd > 0 ? '+' : ''}{team.gd}
+                  </td>
+                  <td className="text-center fw-bold">
+                    <Badge bg="dark" text="white" className="points-badge">{team.pts}</Badge>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Card>
+      ) : (
+        <Row>
+          {sortedTeams.map((team, index) => (
+            <Col key={team.id} xs={12} md={6} xl={4} className="mb-3">
+              <Card className={`h-100 shadow-sm team-card ${getPositionClass(index + 1)}`}>
+                <Card.Body>
+                  <Row className="align-items-center mb-3">
+                    <Col xs={2}>
+                      <Badge bg={getPositionBadge(index + 1)} className="position-badge-card">{index + 1}</Badge>
+                    </Col>
+                    <Col xs={7}>
+                      <Link to={`/equipo/${team.id}`} className="team-link">
+                        <h5 className="card-title mb-0 team-name">{team.name}</h5>
                       </Link>
-                    </h5>
-                    
-                    <div className="row text-center">
-                      <div className="col-4">
-                        <div className="border-end">
-                          <div className="fw-bold text-primary">{team.pj}</div>
-                          <small className="text-muted">PJ</small>
-                        </div>
-                      </div>
-                      <div className="col-4">
-                        <div className="border-end">
-                          <div className="fw-bold">{team.pg}-{team.pe}-{team.pp}</div>
-                          <small className="text-muted">G-E-P</small>
-                        </div>
-                      </div>
-                      <div className="col-4">
-                        <div className={`fw-bold ${team.gd >= 0 ? 'text-success' : 'text-danger'}`}>
-                          {team.gd > 0 ? '+' : ''}{team.gd}
-                        </div>
-                        <small className="text-muted">DIF</small>
-                      </div>
-                    </div>
-                    
-                    <hr className="my-3" />
-                    
-                    <div className="row text-center">
-                      <div className="col-6">
-                        <span className="text-success fw-bold">{team.gf}</span>
-                        <small className="text-muted d-block">Goles a favor</small>
-                      </div>
-                      <div className="col-6">
-                        <span className="text-danger fw-bold">{team.gc}</span>
-                        <small className="text-muted d-block">Goles en contra</small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Footer informativo */}
-        <div className="row mt-4">
-          <div className="col-12">
-            <div className="card bg-light border-0">
-              <div className="card-body text-center py-3">
-                <div className="row">
-                  <div className="col-md-4 mb-2">
-                    <small className="text-muted">
-                      <i className="bi bi-calendar-event"></i> Fecha {Math.ceil(Math.random() * 19)}
-                    </small>
-                  </div>
-                  <div className="col-md-4 mb-2">
-                    <small className="text-muted">
-                      <i className="bi bi-trophy"></i> Liga BetPlay DIMAYOR 2024
-                    </small>
-                  </div>
-                  <div className="col-md-4 mb-2">
-                    <small className="text-muted">
-                      <i className="bi bi-clock"></i> Actualizado: {new Date().toLocaleDateString('es-CO')}
-                    </small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+                    </Col>
+                    <Col xs={3} className="text-end">
+                      <span className="fw-bold">{team.pts} PTS</span>
+                    </Col>
+                  </Row>
+                  <Row className="text-center small">
+                    <Col><strong>{team.pj}</strong><div className="text-muted">PJ</div></Col>
+                    <Col><strong>{team.pg}</strong><div className="text-muted">PG</div></Col>
+                    <Col><strong>{team.pe}</strong><div className="text-muted">PE</div></Col>
+                    <Col><strong>{team.pp}</strong><div className="text-muted">PP</div></Col>
+                    <Col><strong>{team.gd}</strong><div className="text-muted">DIF</div></Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
+    </Container>
   );
 }
 

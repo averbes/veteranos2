@@ -1,310 +1,189 @@
-/* Importar Bootstrap Icons */
-@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css');
+/* Standings Component Styles */
 
-/* Variables personalizadas para Liga BetPlay */
+/* 1. General Setup & Variables
+-------------------------------------------------- */
+.standings-component {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
 :root {
-  --betplay-primary: #0066CC;
-  --betplay-secondary: #FF6B35;
-  --betplay-success: #28a745;
-  --betplay-warning: #ffc107;
-  --betplay-danger: #dc3545;
-  --betplay-light: #f8f9fa;
-  --betplay-dark: #343a40;
+  --position-direct-color: #198754;
+  --position-playoff-color: #ffc107;
+  --position-relegation-color: #dc3545;
+  --primary-brand-color: #0d6efd;
+  --dark-brand-color: #212529;
 }
 
-/* Override de colores de Bootstrap */
-.bg-primary {
-  background-color: var(--betplay-primary) !important;
+/* 2. Header Card
+-------------------------------------------------- */
+.standings-header-card .card-header {
+  border-bottom: none;
 }
 
-.text-primary {
-  color: var(--betplay-primary) !important;
+.standings-header-card .btn-group .btn {
+  border-radius: 0.375rem;
 }
 
-.btn-primary {
-  background-color: var(--betplay-primary);
-  border-color: var(--betplay-primary);
+/* 3. Legend
+-------------------------------------------------- */
+.legend-badge {
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
-.badge.bg-primary {
-  background-color: var(--betplay-primary) !important;
-}
-
-/* Estilos específicos de la tabla */
+/* 4. Table Styles
+-------------------------------------------------- */
 .betplay-table {
   font-size: 0.9rem;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .betplay-table thead th {
-  background-color: var(--betplay-primary) !important;
-  border: none;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding: 1rem 0.75rem;
   vertical-align: middle;
+  white-space: nowrap;
+}
+
+.betplay-table .sortable {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.betplay-table .sortable:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .betplay-table tbody tr {
-  transition: all 0.2s ease;
-  border-bottom: 1px solid #dee2e6;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  border-left: 4px solid transparent; /* Default border */
 }
 
 .betplay-table tbody tr:hover {
-  background-color: rgba(0, 102, 204, 0.05);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa; /* Light grey on hover */
+}
+
+/* Position indicator styles for table rows */
+.betplay-table .position-direct {
+  border-left-color: var(--position-direct-color);
+}
+.betplay-table .position-playoff {
+  border-left-color: var(--position-playoff-color);
+}
+.betplay-table .position-relegation {
+  border-left-color: var(--position-relegation-color);
 }
 
 .betplay-table td {
-  padding: 1rem 0.75rem;
   vertical-align: middle;
-  border: none;
 }
 
-/* Badges de posición */
-.position-badge {
-  min-width: 35px;
-  height: 35px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 0.9rem;
-}
-
-/* Colores por posición */
-.clasificacion-directa {
-  border-left: 4px solid var(--betplay-success) !important;
-}
-
-.clasificacion-repechaje {
-  border-left: 4px solid var(--betplay-warning) !important;
-}
-
-.descenso {
-  border-left: 4px solid var(--betplay-danger) !important;
-}
-
-/* Logos de equipos */
 .team-logo {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-/* Enlaces de equipos */
 .team-link {
-  color: var(--betplay-dark);
-  font-weight: 600;
-  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--dark-brand-color);
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
 .team-link:hover {
-  color: var(--betplay-primary);
-  text-decoration: none;
+  color: var(--primary-brand-color);
 }
 
-/* Celdas de equipos */
-.team-cell {
-  min-width: 200px;
+.team-name {
+  white-space: nowrap;
 }
 
-/* Tarjetas de equipos */
-.team-card-betplay {
-  transition: all 0.3s ease;
-  border: 1px solid #dee2e6;
+.points-badge {
+  font-size: 0.9em;
+  padding: 0.5em 0.8em;
+  letter-spacing: 0.5px;
 }
 
-.team-card-betplay:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+/* 5. Card View Styles
+-------------------------------------------------- */
+.team-card {
+  border: 1px solid #e9ecef;
+  border-left-width: 4px;
+  border-left-color: #e9ecef; /* Default border */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.team-card-betplay.clasificacion-directa {
-  border-left-color: var(--betplay-success) !important;
+.team-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
-.team-card-betplay.clasificacion-repechaje {
-  border-left-color: var(--betplay-warning) !important;
+/* Position indicator styles for cards */
+.team-card.position-direct {
+  border-left-color: var(--position-direct-color);
+}
+.team-card.position-playoff {
+  border-left-color: var(--position-playoff-color);
+}
+.team-card.position-relegation {
+  border-left-color: var(--position-relegation-color);
 }
 
-.team-card-betplay.descenso {
-  border-left-color: var(--betplay-danger) !important;
+.team-card .team-name {
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
-/* Botones de ordenación */
-.btn-link {
-  font-size: inherit;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+.position-badge-card {
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 
-.btn-link:focus {
-  box-shadow: none;
-}
-
-/* Animaciones */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+/* 6. Responsive Adjustments
+-------------------------------------------------- */
+@media (max-width: 768px) {
+  .standings-header-card .h5 {
+    font-size: 1.1rem;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .team-name {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
-.position-row {
-  animation: fadeInUp 0.5s ease forwards;
-}
-
-.position-row:nth-child(odd) {
-  animation-delay: 0.1s;
-}
-
-.position-row:nth-child(even) {
-  animation-delay: 0.2s;
-}
-
-/* Estilos responsivos adicionales */
 @media (max-width: 576px) {
   .betplay-table {
     font-size: 0.8rem;
   }
-  
-  .betplay-table td,
-  .betplay-table th {
-    padding: 0.5rem 0.25rem;
+
+  .betplay-table td, .betplay-table th {
+    padding: 0.6rem 0.4rem;
   }
-  
+
   .team-logo {
-    width: 25px;
-    height: 25px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .team-name {
+    max-width: 100px;
   }
   
-  .position-badge {
-    min-width: 30px;
-    height: 30px;
-    font-size: 0.8rem;
+  .standings-header-card .btn-group {
+    width: 100%;
   }
-}
 
-@media (max-width: 768px) {
-  .team-cell {
-    min-width: 150px;
+  .standings-header-card .btn-group .btn {
+    flex-grow: 1;
   }
-}
-
-/* Efectos adicionales */
-.card {
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.badge {
-  border-radius: 8px;
-}
-
-/* Estilos para la leyenda */
-.card-body {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-}
-
-/* Header principal */
-.bg-primary {
-  background: linear-gradient(135deg, var(--betplay-primary) 0%, #004499 100%) !important;
-}
-
-/* Sombras y efectos */
-.shadow {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-}
-
-.shadow-sm {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Efectos hover para botones */
-.btn-group .btn {
-  transition: all 0.2s ease;
-}
-
-.btn-group .btn:hover {
-  transform: translateY(-2px);
-}
-
-/* Estilos para estadísticas coloreadas */
-.text-success {
-  color: var(--betplay-success) !important;
-  font-weight: 600;
-}
-
-.text-warning {
-  color: #f57c00 !important;
-  font-weight: 600;
-}
-
-.text-danger {
-  color: var(--betplay-danger) !important;
-  font-weight: 600;
-}
-
-/* Mejoras de accesibilidad */
-.btn:focus,
-.btn-link:focus {
-  outline: 2px solid var(--betplay-primary);
-  outline-offset: 2px;
-}
-
-/* Indicadores de ordenación mejorados */
-.bi-arrow-down-up,
-.bi-arrow-down,
-.bi-arrow-up {
-  font-size: 0.8rem;
-  margin-left: 0.25rem;
-}
-
-/* Footer informativo */
-.bg-light {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
-}
-
-/* Transiciones suaves para cambio de vista */
-.fade-in {
-  animation: fadeInUp 0.5s ease forwards;
-}
-
-/* Estilos para dispositivos táctiles */
-@media (hover: none) {
-  .betplay-table tbody tr:hover {
-    background-color: transparent;
-    transform: none;
-    box-shadow: none;
-  }
-  
-  .team-card-betplay:hover {
-    transform: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-}
-
-.standings-container {
-  margin-top: 2rem;
-  width: 100%;
-  max-width: 1100px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #2a2a2a;
-  border-radius: 8px;
-  overflow: hidden;
 }
